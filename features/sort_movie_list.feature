@@ -22,12 +22,32 @@ Background: movies have been added to database
   And I am on the RottenPotatoes home page
   Then 10 seed movies should exist
 
-Scenario: sort movies alphabetically
-  When I follow "Movie Title"
-  # your steps here
-  Then complete the rest of of this scenario
+  Scenario: sort movies alphabetically
+    When I follow "Movie Title"
+    Then I should see movies sorted alphabetically:
+      | title                   |
+      | 2001: A Space Odyssey   |
+      | Aladdin                 |
+      | Amelie                  |
+      | Chicken Run             |
+      | Chocolat                |
+      | Raiders of the Lost Ark |
+      | The Help                |
+      | The Incredibles         |
+      | The Terminator          |
+      | When Harry Met Sally    |
 
-Scenario: sort movies in increasing order of release date
-  When I follow "Release Date"
-  # your steps here
-  Then complete the rest of of this scenario
+  Scenario: sort movies by release date
+    When I follow "Release Date"
+    Then I should see movies sorted by release date:
+      | release_date |
+      | 6-Apr-1968   |
+      | 12-Jun-1981  |
+      | 26-Oct-1984  |
+      | 21-Jul-1989  |
+      | 25-Nov-1992  |
+      | 21-Jun-2000  |
+      | 5-Jan-2001   |
+      | 25-Apr-2001  |
+      | 5-Nov-2004   |
+      | 10-Aug-2011  |

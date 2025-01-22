@@ -64,4 +64,48 @@ Then(/complete the rest of of this scenario/) do
   raise "Remove this step from your .feature files"
 end
 #------------------------------------
+#เพิ่มเชื่อมกับsort_movie_list.Feature
+Then('I should see movies sorted alphabetically:') do |table|
+  # ดึงรายชื่อภาพยนตร์ที่แสดงผลในหน้าเว็บ
+  displayed_titles = page.all('table#movies tbody tr td:first-child').map(&:text)
+  # แปลงข้อมูลใน DataTable ของ Cucumber เป็น Array
+  expected_titles = table.raw.flatten.drop(1)
+  ##expected_titles = table.raw.flatten
+  # ตรวจสอบว่ารายชื่อที่แสดงผลเรียงลำดับตามที่คาดหวังหรือไม่
+  expect(displayed_titles).to eq(expected_titles)
+end
+
+
+Then('I should see movies sorted by release date:') do |table|
+  # ดึงวันที่จากหน้าเว็บ
+  displayed_dates = page.all('table#movies tbody tr td:nth-child(3)').map(&:text)
+
+  # ข้ามหัวตาราง (row[0]) และแปลงวันที่ในฟีเจอร์ไฟล์เป็น ISO Format
+  expected_dates = table.raw.drop(1).flatten.map do |date|
+    begin
+      Date.strptime(date, '%d-%b-%Y').strftime('%Y-%m-%d 00:00:00 UTC')
+    rescue ArgumentError => e
+      raise "Invalid date format in feature file: #{date}"
+    end
+  end
+
+  # ตรวจสอบความถูกต้องของข้อมูล
+  if displayed_dates.empty?
+    raise "No dates found on the page. Check your HTML table structure or selectors."
+  end
+
+  # เปรียบเทียบ
+  expect(displayed_dates).to eq(expected_dates)
+end
+
+
+#Then('I should see movies sorted by release date:') do |table|
+  # ดึงวันที่ที่แสดงผลในหน้าเว็บ
+  #displayed_dates = page.all('table#movies tbody tr td:nth-child(3)').map(&:text)
+  # แปลงข้อมูลใน DataTable ของ Cucumber เป็น Array
+  #expected_dates = table.raw.flatten
+  # ตรวจสอบว่าลำดับวันที่ที่แสดงผลตรงตามที่คาดหวังหรือไม่
+  #expect(displayed_dates).to eq(expected_dates)
+#end
+
 
