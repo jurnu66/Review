@@ -1,0 +1,15 @@
+<h1>Write a Review for <%= @movie.title %></h1>
+
+<%= form_for([@movie, @review]) do |f| %>
+  <p>
+    <%= f.label :rating, "Rating (1-5 stars):" %><br>
+    <%= f.select :rating, options_for_select(1..5) %>
+  </p>
+  <p>
+    <%= f.label :comments, "Comments:" %><br>
+    <%= f.text_area :comments %>
+  </p>
+  <p>
+    <%= f.submit "Submit Review", class: "btn btn-success" %>
+  </p>
+<% end %>

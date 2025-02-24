@@ -1,4 +1,4 @@
-<!--  app/views/movies/show.html.erb -->
+<!-- app/views/movies/show.html.erb -->
 <h2>Details about <em><%= @movie.title %></em></h2>
 
 <ul id="details">
@@ -17,7 +17,31 @@
   <%= @movie.description %>
 </p>
 
-<div class="row">
+<h3>Reviews:</h3>
+
+<% if @movie.reviews.any? %>
+  <div class="list-group">
+    <% @movie.reviews.each do |review| %>
+      <div class="list-group-item">
+        <h5 class="mb-1">
+          <strong><%= review.user.email %></strong>
+        </h5>
+        <p class="mb-1"><%= review.comments %></p>
+        <small class="text-warning">
+          <%= raw ("<i class='bi bi-star-fill'></i> " * review.rating) %>
+        </small>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>No reviews yet.</p>
+<% end %>
+
+<% if logged_in? %>
+  <%= link_to "Write a Review", new_movie_review_path(@movie), class: "btn btn-success mt-3" %>
+<% end %>
+
+<div class="row mt-3">
   <%= link_to 'Edit', edit_movie_path(@movie), class: 'btn btn-primary col-2' %>
   <%= link_to 'Delete', movie_path(@movie), 'data-method': 'delete', 'data-confirm': 'Are you sure?', class: 'btn btn-danger col-2' %>
   <%= link_to 'Back to movie list', movies_path, class: 'btn btn-primary col-2' %>

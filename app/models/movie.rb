@@ -10,4 +10,9 @@ class Movie < ApplicationRecord
       where(rating: ratings.map(&:upcase)).order sort_by
     end
   end
+ 
+  has_many :reviews, dependent: :destroy
+
+  
 end
+
